@@ -1,0 +1,42 @@
+version: '2'
+services:
+    proxy:
+        image: "nginx:1.12-alpine"
+        container_name: cit_proxy_0.1
+        ports:
+            - "80:80"
+        volumes:
+            - ./proxy/conf:/etc/nginx/conf.d
+        links:
+            - nexus:nexus
+        depends_on:
+            - nexus
+        networks:
+            - cit
+    nexus:
+        image: "sonatype/nexus3:3.3.0"
+        container_name: cit_nexus_0.1
+        expose:
+            - 8081
+        environment:
+            NEXUS_CONTEXT: nexus
+        volumes:
+            - ./nexus/data:/nexus-data
+        networks:
+            - cit
+#    gitlab:
+#        image: "gitlab/gitlab-ce:9.1.1-ce.0"
+#        container_name: cit_gitlab_0.1
+#        expose:
+#            - 443
+#            - 80
+#            - 22
+#        volumes:
+#            - ./gitlab/config:/etc/gitlab
+#            - ./gitlab/logs:/var/log/gitlab
+#            - ./gitlab/data:/var/opt/gitlab
+#        networks:
+#            - cit 
+networks:
+    cit:
+
