@@ -13,23 +13,21 @@ services:
             - ./proxy/gitlab.test.de:/opt/nginx/gitlab
             - ./proxy/logs:/opt/nginx/logs
             - ./proxy/ssl:/opt/nginx/ssl
-#        links:
-#            - nexus:nexus
-#        depends_on:
-#            - nexus
+        links:
+            - nexus:nexus
+        depends_on:
+            - nexus
         networks:
             - cit
-#    nexus:
-#        image: "sonatype/nexus3:3.3.0"
-#        container_name: cit_nexus_0.1
-#        expose:
-#            - 8081
-#        environment:
-#            NEXUS_CONTEXT: nexus
-#        volumes:
-#            - ./nexus/data:/nexus-data
-#        networks:
-#            - cit
+    nexus:
+        image: "sonatype/nexus3:3.3.0"
+        container_name: cit_nexus_0.1
+        expose:
+            - 8081
+        volumes:
+            - ./nexus/data:/nexus-data
+        networks:
+            - cit
 #    gitlab:
 #        image: "gitlab/gitlab-ce:9.1.1-ce.0"
 #        container_name: cit_gitlab_0.1
